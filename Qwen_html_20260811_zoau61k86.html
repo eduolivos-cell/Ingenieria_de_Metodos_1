@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingeniería de Métodos I — Flujogramas o Diagramas de Procesos</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+:root{--bg:#FDF8F0;--card:#FFF;--naranja:#FF6B35;--cyan:#00B4D8;--morado:#7B2FF7;--rosa:#F72585;--verde:#06D6A0;--amarillo:#FFD166;--azul:#118AB2;--tinta:#22333B;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+body{background:var(--bg);color:var(--tinta);overflow-x:hidden;}
+header{background:linear-gradient(90deg,var(--naranja),var(--rosa),var(--morado));color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:sticky;top:0;z-index:50;box-shadow:0 4px 18px rgba(123,47,247,.35);}
+header h1{font-size:1.1rem;} .docente{background:rgba(255,255,255,.2);padding:6px 14px;border-radius:20px;font-size:.85rem;font-weight:600;}
+.timer{font-variant-numeric:tabular-nums;background:rgba(0,0,0,.25);padding:6px 12px;border-radius:10px;}
+.timer button{margin-left:5px;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-weight:700;}
+#barra{height:7px;background:#eee;} #barraFill{height:100%;width:0;background:linear-gradient(90deg,var(--verde),var(--cyan),var(--morado));transition:width .4s;}
+main{max-width:1080px;margin:0 auto;padding:26px 16px 95px;}
+.slide{display:none;animation:fade .45s ease;} .slide.activa{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.tarjeta{background:var(--card);border-radius:18px;padding:24px 28px;margin-bottom:20px;box-shadow:0 8px 26px rgba(34,51,59,.10);border-top:6px solid var(--naranja);}
+.tarjeta.cyan{border-top-color:var(--cyan);} .tarjeta.morado{border-top-color:var(--morado);} .tarjeta.verde{border-top-color:var(--verde);} .tarjeta.rosa{border-top-color:var(--rosa);} .tarjeta.azul{border-top-color:var(--azul);}
+.etiqueta{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;color:#fff;margin-bottom:12px;}
+h2{font-size:1.6rem;margin-bottom:12px;} h3{margin:14px 0 8px;color:var(--morado);}
+ul,ol{margin:10px 0 10px 24px;line-height:1.7;} p{line-height:1.65;margin-bottom:8px;}
+.destacado{background:linear-gradient(120deg,#FFF3E0,#FFE3F1);border-left:6px solid var(--rosa);padding:14px 18px;border-radius:10px;margin:14px 0;}
+.portada{text-align:center;padding:55px 20px;background:radial-gradient(circle at 15% 20%,rgba(255,209,102,.5),transparent 40%),radial-gradient(circle at 85% 80%,rgba(0,180,216,.35),transparent 40%),var(--card);border-radius:24px;}
+.portada h1{font-size:2.5rem;background:linear-gradient(90deg,var(--naranja),var(--rosa),var(--morado));-webkit-background-clip:text;background-clip:text;color:transparent;margin:14px 0;}
+.portada .curso{font-size:1rem;font-weight:800;color:var(--azul);letter-spacing:3px;text-transform:uppercase;}
+.chips{margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.chip{padding:8px 18px;border-radius:22px;color:#fff;font-weight:700;font-size:.85rem;}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:12px;}
+.grid2{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:10px;}
+@media(max-width:800px){.grid2{grid-template-columns:1fr;}}
+.mini{border-radius:14px;padding:16px;color:#fff;transition:transform .2s;} .mini:hover{transform:translateY(-5px);}
+.mini b{display:block;margin-bottom:6px;} .mini span{font-size:.85rem;line-height:1.5;display:block;}
+.btn{border:none;border-radius:12px;padding:12px 26px;font-size:1rem;font-weight:800;cursor:pointer;color:#fff;background:linear-gradient(90deg,var(--naranja),var(--rosa));box-shadow:0 6px 16px rgba(247,37,133,.35);transition:transform .15s;}
+.btn:hover{transform:scale(1.05);} .btn.sec{background:linear-gradient(90deg,var(--cyan),var(--azul));} .btn.ver{background:linear-gradient(90deg,var(--verde),#0a9e77);}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;gap:18px;padding:12px;box-shadow:0 -4px 18px rgba(0,0,0,.08);z-index:60;}
+#contador{font-weight:800;color:var(--morado);min-width:80px;text-align:center;}
+.sliderBox{background:#F4F7FF;border-radius:14px;padding:16px;border:2px dashed var(--cyan);}
+input[type=range]{width:100%;accent-color:var(--rosa);cursor:pointer;}
+.total60{font-size:1.1rem;font-weight:800;text-align:center;padding:10px;border-radius:10px;margin-top:10px;}
+.simbGrid{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
+.simbBtn,.btn3d{background:#fff;border:3px solid var(--morado);border-radius:12px;padding:10px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:700;font-size:.78rem;min-width:100px;transition:all .2s;}
+.simbBtn:hover,.simbBtn.sel,.btn3d:hover,.btn3d.sel{background:var(--morado);color:#fff;transform:translateY(-4px);}
+.fig{width:44px;height:32px;display:inline-block;}
+.f-rec{background:var(--cyan);} .f-eli{background:var(--verde);border-radius:50%;}
+.f-rom{background:var(--amarillo);width:36px;height:36px;transform:rotate(45deg);border-radius:6px;}
+.f-tri{background:var(--rosa);clip-path:polygon(0 0,100% 0,50% 100%);}
+.f-doc{background:var(--naranja);border-radius:0 0 50% 20%/0 0 100% 40%;}
+.f-fle{background:transparent;border-left:8px solid transparent;border-right:8px solid transparent;border-top:30px solid var(--azul);width:0;height:0;}
+#panelSimb,#panel3D{margin-top:14px;background:linear-gradient(120deg,#EDE7FF,#E0F7FF);border-radius:14px;padding:16px;line-height:1.6;border-left:6px solid var(--morado);min-height:70px;}
+#threeCanvas{width:100%;height:260px;display:block;touch-action:none;border-radius:14px;background:linear-gradient(180deg,#F4F7FF,#EDE7FF);}
+.flujo,.flujoV{display:flex;flex-direction:column;align-items:center;gap:4px;margin:16px 0;}
+.flujoV .nodo{opacity:1;}
+.nodo{padding:12px 22px;font-weight:700;text-align:center;color:#fff;min-width:230px;transition:all .3s;opacity:.45;font-size:.9rem;}
+.nodo.on{opacity:1;transform:scale(1.07);box-shadow:0 0 0 4px rgba(255,209,102,.9),0 8px 20px rgba(0,0,0,.25);}
+.n-eli{border-radius:50px;background:var(--verde);} .n-rec{border-radius:8px;background:var(--cyan);}
+.n-rom{background:var(--amarillo);color:var(--tinta);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);padding:32px 38px;min-width:250px;}
+.romSm{padding:24px 30px;min-width:210px;font-size:.85rem;}
+.flecha{font-size:1.4rem;color:var(--morado);font-weight:900;}
+.flechaH{color:var(--morado);font-weight:900;font-size:1.2rem;white-space:nowrap;}
+.nota{font-size:.8rem;color:var(--rosa);font-weight:800;}
+.scrollX{overflow-x:auto;padding:6px 4px 14px;}
+.flujoISO{display:flex;flex-direction:column;align-items:center;gap:4px;margin:10px auto;min-width:420px;max-width:660px;}
+.flujoISO .nodo{opacity:1;}
+.loopWrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.railSI{position:absolute;top:23px;bottom:46px;right:-96px;width:76px;border:4px solid var(--rosa);border-left:none;border-radius:0 16px 16px 0;}
+.railSI::before{content:"";position:absolute;top:-9px;left:-14px;width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-right:14px solid var(--rosa);}
+.railTag{position:absolute;top:50%;left:100%;transform:translate(8px,-50%);writing-mode:vertical-rl;color:var(--rosa);font-weight:800;font-size:.78rem;letter-spacing:1px;white-space:nowrap;}
+.n-tri2{background:var(--rosa);clip-path:polygon(0 0,100% 0,50% 100%);min-width:210px;padding:12px 30px 46px;color:#fff;font-weight:800;text-align:center;}
+.decRow{display:flex;align-items:center;justify-content:center;gap:12px;}
+.sideBranch{display:flex;align-items:center;gap:8px;}
+.sideCol{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.sideNode{min-width:150px;max-width:200px;padding:8px 12px;font-size:.76rem;background:var(--rosa);border-radius:8px;opacity:1;}
+.flujoSol{background:#FBFDFF;border:2px dashed var(--verde);border-radius:14px;padding:14px 8px;margin-top:14px;}
+.swim{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px;}
+@media(max-width:800px){.swim{grid-template-columns:1fr 1fr;}}
+.lane{background:#F4F7FF;border-radius:12px;padding:10px;border-top:4px solid var(--cyan);}
+.lane h4{color:var(--azul);font-size:.82rem;text-align:center;margin-bottom:8px;}
+.paso{background:#fff;border:2px solid var(--cyan);border-radius:8px;padding:8px;font-size:.78rem;font-weight:700;margin:8px 0;text-align:center;}
+table{width:100%;border-collapse:collapse;margin-top:12px;}
+th{background:var(--morado);color:#fff;padding:10px;text-align:left;} td{padding:10px;border-bottom:1px solid #eee;line-height:1.5;vertical-align:top;}
+tr:nth-child(even){background:#F6F1FF;}
+.preg{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;border-left:6px solid var(--cyan);box-shadow:0 4px 12px rgba(0,0,0,.06);}
+.preg p.enun{font-weight:800;margin-bottom:10px;}
+.preg label{display:block;padding:7px 12px;border-radius:8px;cursor:pointer;margin:4px 0;} .preg label:hover{background:#FFF0E6;}
+.preg.ok{border-left-color:var(--verde);background:#F0FFF9;} .preg.mal{border-left-color:var(--rosa);background:#FFF0F6;}
+.feedback{font-size:.85rem;margin-top:8px;padding:8px 12px;border-radius:8px;display:none;}
+.puntaje{text-align:center;font-size:1.4rem;font-weight:900;padding:18px;border-radius:14px;margin-top:14px;display:none;}
+.oculto{display:none;} footer{text-align:center;padding:20px;color:#888;font-size:.8rem;}
+</style>
+</head>
+<body>
+<header>
+  <h1>📐 Ingeniería de Métodos I</h1>
+  <span class="docente">👨‍🏫 Docente: Eduardo Olivos</span>
+  <div class="timer">⏱ <span id="reloj">60:00</span>
+    <button onclick="iniciarTimer()" style="background:var(--verde)">▶</button>
+    <button onclick="pausarTimer()" style="background:var(--amarillo)">⏸</button>
+    <button onclick="resetTimer()" style="background:var(--rosa)">↺</button>
+  </div>
+</header>
+<div id="barra"><div id="barraFill"></div></div>
+<main>
+
+<!-- 1 PORTADA -->
+<section class="slide activa">
+  <div class="portada">
+    <span class="curso">Ingeniería de Métodos I · Semana 1 · 2026-02</span>
+    <h1>Flujogramas o Diagramas de Procesos</h1>
+    <p style="font-size:1.1rem">Representación estandarizada de procesos de manufactura y servicios</p>
+    <div class="chips">
+      <span class="chip" style="background:var(--naranja)">🎯 Utility</span>
+      <span class="chip" style="background:var(--rosa)">💡 Innovation</span>
+      <span class="chip" style="background:var(--morado)">📚 Skills & Knowledges</span>
+      <span class="chip" style="background:var(--verde)">🏆 Accomplishment</span>
+    </div><br>
+    <button class="btn" onclick="ir(2)">Comenzar la sesión 🚀</button>
+  </div>
+</section>
+
+<!-- 2 OBJETIVO + SLIDERS + CHART.JS DONA -->
+<section class="slide">
+  <div class="tarjeta cyan">
+    <span class="etiqueta" style="background:var(--cyan)">Logro de la sesión</span>
+    <h2>🎯 ¿Qué lograremos hoy?</h2>
+    <div class="destacado">Al finalizar la sesión, el estudiante <b>elabora diagramas estandarizados</b> y representa mediante ellos un proceso de <b>manufactura</b> y de <b>servicios</b>.</div>
+    <ul>
+      <li><b>Tema 1:</b> Fundamentos, normas y símbolos de los flujogramas.</li>
+      <li><b>Tema 2:</b> Mapa Global de Procesos y diseño de flujogramas.</li>
+      <li>Aplicación práctica y evaluación de cada tema.</li>
+    </ul>
+  </div>
+  <div class="tarjeta verde">
+    <span class="etiqueta" style="background:var(--verde)">Interactivo · Chart.js 2D</span>
+    <h3>⏳ Distribuye los 60 minutos (deslizadores + gráfica en vivo)</h3>
+    <div class="grid2">
+      <div class="sliderBox">
+        <p>📘 Teoría: <b id="vTeo">25</b> min</p>
+        <input type="range" id="sTeo" min="0" max="60" value="25" oninput="calcTiempo()">
+        <p>🛠 Práctica guiada: <b id="vPra">25</b> min</p>
+        <input type="range" id="sPra" min="0" max="60" value="25" oninput="calcTiempo()">
+        <p>📝 Evaluación: <b id="vEva">10</b> min</p>
+        <input type="range" id="sEva" min="0" max="60" value="10" oninput="calcTiempo()">
+        <div id="total60" class="total60"></div>
+      </div>
+      <div><canvas id="chartTiempo" height="230"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 TEMA 1 -->
+<section class="slide">
+  <div class="tarjeta rosa">
+    <span class="etiqueta" style="background:var(--rosa)">Tema 1 · Fundamentos</span>
+    <h2>💡 ¿Qué es un flujograma?</h2>
+    <div class="destacado">Representación gráfica <b>secuencial</b> de un proceso, algoritmo o sistema, con <b>símbolos estandarizados</b> (rectángulos, rombos, flechas) que muestran el <b>inicio</b>, el <b>fin</b> y los pasos intermedios.</div>
+    <div class="grid">
+      <div class="mini" style="background:var(--naranja)"><b>👁 Visualización clara</b><span>Sustituye textos largos por un mapa visual.</span></div>
+      <div class="mini" style="background:var(--cyan)"><b>📈 Mejora de procesos</b><span>Detecta actividades innecesarias y cuellos de botella.</span></div>
+      <div class="mini" style="background:var(--morado)"><b>📏 Estandarización</b><span>Todos ejecutan el procedimiento igual.</span></div>
+      <div class="mini" style="background:var(--rosa)"><b>🧭 Toma de decisiones</b><span>Mapea rutas de acción según decisiones.</span></div>
+      <div class="mini" style="background:var(--verde)"><b>🎓 Capacitación</b><span>Facilita el aprendizaje del nuevo personal.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 NORMAS -->
+<section class="slide">
+  <div class="tarjeta morado">
+    <span class="etiqueta" style="background:var(--morado)">Tema 1 · Normatividad</span>
+    <h2>📜 Símbolos usados en los diagramas de flujo</h2>
+    <div class="grid">
+      <div class="mini" style="background:var(--azul)"><b>ASME</b><span>American Society of Mechanical Engineers</span></div>
+      <div class="mini" style="background:var(--naranja)"><b>ANSI</b><span>American National Standards Institute</span></div>
+      <div class="mini" style="background:var(--verde)"><b>ISO</b><span>International Organization for Standardization</span></div>
+      <div class="mini" style="background:var(--tinta)"><b>DIN</b><span>Deutsches Institut für Normung e.V.</span></div>
+      <div class="mini" style="background:var(--rosa)"><b>DO</b><span>Ingeniería de operaciones y mejora de la calidad del proceso</span></div>
+      <div class="mini" style="background:var(--cyan)"><b>DIF</b><span>Yourdon–De Marco y Gane & Sarson</span></div>
+    </div>
+    <div class="destacado">⚠️ <b>Colores de seguridad (Unidad 2):</b> <b style="color:#D62828">■ Rojo</b> prohibición/incendio · <b style="color:#C99700">■ Amarillo</b> precaución · <b style="color:#118AB2">■ Azul</b> obligación (EPP) · <b style="color:#0a9e77">■ Verde</b> seguridad/evacuación.</div>
+  </div>
+</section>
+
+<!-- 5 EXPLORADOR 2D + THREE.JS 3D -->
+<section class="slide">
+  <div class="tarjeta azul">
+    <span class="etiqueta" style="background:var(--azul)">Tema 1 · Interactivo 2D</span>
+    <h2>🔍 Explorador de símbolos</h2>
+    <div class="simbGrid">
+      <button class="simbBtn" onclick="verSimb(0,this)"><span class="fig f-eli"></span>Óvalo</button>
+      <button class="simbBtn" onclick="verSimb(1,this)"><span class="fig f-rec"></span>Rectángulo</button>
+      <button class="simbBtn" onclick="verSimb(2,this)"><span class="fig f-rom"></span>Rombo</button>
+      <button class="simbBtn" onclick="verSimb(3,this)"><span class="fig f-fle"></span>Flecha</button>
+      <button class="simbBtn" onclick="verSimb(4,this)"><span class="fig f-tri"></span>Triángulo</button>
+      <button class="simbBtn" onclick="verSimb(5,this)"><span class="fig f-doc"></span>Documento</button>
+    </div>
+    <div id="panelSimb">👆 Selecciona un símbolo para ver su definición.</div>
+  </div>
+  <div class="tarjeta morado">
+    <span class="etiqueta" style="background:var(--morado)">Three.js · 3D</span>
+    <h2>🧊 Galería 3D de símbolos (arrastra para rotar)</h2>
+    <div id="threeWrap"><canvas id="threeCanvas"></canvas></div>
+    <div class="simbGrid">
+      <button class="btn3d" onclick="sel3D(0,this)">Inicio/Fin</button>
+      <button class="btn3d" onclick="sel3D(1,this)">Actividad</button>
+      <button class="btn3d" onclick="sel3D(2,this)">Decisión</button>
+      <button class="btn3d" onclick="sel3D(3,this)">Almacén</button>
+    </div>
+    <div id="panel3D"> Gira la escena y pulsa un botón para resaltar el símbolo 3D.</div>
+  </div>
+</section>
+
+<!-- 6 KATEX + CHART.JS BARRAS -->
+<section class="slide">
+  <div class="tarjeta verde">
+    <span class="etiqueta" style="background:var(--verde)">KaTeX · Métricas</span>
+    <h3>📊 Lo que un flujograma ayuda a mejorar</h3>
+    <p>$$Productividad \;=\; \dfrac{Salidas\;(outputs)}{Entradas\;(inputs)}$$</p>
+    <p>$$Eficiencia\;(\%) \;=\; \dfrac{Tiempo\;est\acute{a}ndar}{Tiempo\;real}\times 100$$</p>
+    <p>$$Ley\;de\;Little:\quad L \;=\; \lambda \times W$$</p>
+    <p style="font-size:.87rem">Identificar <b>esperas</b> y <b>almacenes</b> en el diagrama reduce \(W\) y \(L\).</p>
+  </div>
+  <div class="tarjeta cyan">
+    <span class="etiqueta" style="background:var(--cyan)">Chart.js · Canvas 2D</span>
+    <h3>📈 Conteo de símbolos en los ejemplos de clase</h3>
+    <canvas id="chartBarras" height="240"></canvas>
+  </div>
+</section>
+
+<!-- 7 EVALUACIÓN 1 -->
+<section class="slide">
+  <div class="tarjeta rosa">
+    <span class="etiqueta" style="background:var(--rosa)">Evaluación · Tema 1</span>
+    <h2>📝 Evaluación 1: Fundamentos y símbolos</h2>
+    <div id="quiz1"></div>
+    <button class="btn" onclick="calificar('quiz1',q1,'res1')">✅ Calificar Evaluación 1</button>
+    <div class="puntaje" id="res1"></div>
+  </div>
+</section>
+
+<!-- 8 MAPA GLOBAL + SWIMLANE -->
+<section class="slide">
+  <div class="tarjeta cyan">
+    <span class="etiqueta" style="background:var(--cyan)">Tema 2 · Mapa Global</span>
+    <h2>🗺 Diagrama o Mapa Global de Procesos</h2>
+    <ul>
+      <li>Ilustra <b>cómo funciona un proceso</b> y ayuda a identificar <b>ineficiencias</b>.</li>
+      <li><b>¿Cuándo se diseña un proceso?</b> Bien/servicio nuevo · modificación de producto · nueva tecnología.</li>
+      <li>Se identifican: <b>participantes</b>, <b>inputs/outputs</b>, <b>pasos</b> y <b>áreas</b> intermedias.</li>
+    </ul>
+    <h3>Ejemplo: Proceso de Compras (carriles por área)</h3>
+    <div class="swim">
+      <div class="lane"><h4>Depto. Solicitante</h4><div class="paso">① Solicitud de materiales</div></div>
+      <div class="lane"><h4>Almacén</h4><div class="paso">② Revisa existencias</div><div class="paso">⑥ Surte materiales</div><div class="paso">⑦ Inspección de materiales</div></div>
+      <div class="lane"><h4>Depto. de Compras</h4><div class="paso">③ Elabora requisición</div><div class="paso">④ Elabora orden de compra</div></div>
+      <div class="lane"><h4>Proveedor</h4><div class="paso">⑤ Selecciona proveedor</div><div class="paso">⑧ Surte orden de compra</div></div>
+    </div>
+    <h3>🪜 Pasos para hacer un Diagrama Global</h3>
+    <ol>
+      <li>Determinar inicio (input) y fin (output).</li>
+      <li>Identificar actividades que generan el output.</li>
+      <li>Identificar participantes/responsables.</li>
+      <li>Identificar la secuencia de pasos.</li>
+      <li>Precisar inputs/proveedores y outputs/destinatarios de cada paso.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 9 PASOS FLUJOGRAMA + DIFERENCIAS -->
+<section class="slide">
+  <div class="tarjeta verde">
+    <span class="etiqueta" style="background:var(--verde)">Tema 2 · Diseño</span>
+    <h2>✏️ Pasos para construir un Flujograma</h2>
+    <ol>
+      <li>Determinar el primer y último paso.</li>
+      <li>Anotar el primer paso arriba con una <b>elipse</b>.</li>
+      <li>Escribir la secuencia: <b>rectángulos</b> (actividades) y <b>rombos</b> (decisiones).</li>
+      <li>Señalar el sentido con <b>flechas</b> de inicio a fin.</li>
+      <li>Regresar al inicio y repetir el rombo para toda ramificación.</li>
+      <li>Anotar el último paso abajo con elipse y conectar ramificaciones.</li>
+    </ol>
+  </div>
+  <div class="tarjeta" style="border-top-color:var(--naranja)">
+    <h2>⚖️ Diferencias clave</h2>
+    <table>
+      <tr><th>Mapa Global de Procesos</th><th>Flujograma</th></tr>
+      <tr><td>Enfoca <b>inputs/outputs</b> e interrelación entre organizaciones.</td><td>Enfoca el <b>flujo secuencial de trabajo</b> dentro de uno o varios pasos.</td></tr>
+      <tr><td><b>No</b> detalla el flujo dentro de un paso.</td><td>Muestra flujos <b>físicos y de información</b>.</td></tr>
+      <tr><td><b>No</b> usa símbolos estándar.</td><td>Usa <b>simbología estándar</b> (ASME, ANSI, ISO…).</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 10 EJERCICIO 1 REACCIÓN QUÍMICA -->
+<section class="slide">
+  <div class="tarjeta azul">
+    <span class="etiqueta" style="background:var(--azul)">Práctica guiada</span>
+    <h2>🧪 Ejercicio 1: Reacción Química</h2>
+    <p>Recorre el flujo con <b>Siguiente paso</b>; el riel rosado muestra la ramificación <b>NO</b> que retorna al reactor.</p>
+    <div class="scrollX"><div class="flujo" id="flujoQ" style="min-width:420px">
+      <div class="nodo n-eli">INICIO</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Pesar materia prima</div><div class="flecha">↓</div>
+      <div class="loopWrap">
+        <div class="nodo n-rec">Agregar al reactor</div><div class="flecha">↓</div>
+        <div class="nodo n-rec">Reacción química</div><div class="flecha">↓</div>
+        <div class="nodo n-rec">Sacar muestra</div><div class="flecha">↓</div>
+        <div class="nodo n-rec">Medir viscosidad</div><div class="flecha">↓</div>
+        <div class="nodo n-rom">¿Viscosidad OK?</div>
+        <div class="railSI"><span class="railTag">NO · retorna al reactor 🔄</span></div>
+      </div>
+      <div class="flecha">↓ <span class="nota">SÍ</span></div>
+      <div class="nodo n-rec">Enfriar y descargar</div><div class="flecha">↓</div>
+      <div class="nodo n-eli">FIN</div>
+    </div></div>
+    <button class="btn sec" id="btnPaso" onclick="pasoFlujo()">▶ Siguiente paso</button>
+    <button class="btn ver" onclick="resetFlujo()">↺ Reiniciar</button>
+  </div>
+</section>
+
+<!-- 11 ISO 9000 + DO -->
+<section class="slide">
+  <div class="tarjeta morado">
+    <span class="etiqueta" style="background:var(--morado)">Ejercicio 2 · ISO 9000</span>
+    <h2>👕 Maquinaria de ropa</h2>
+    <div class="scrollX"><div class="flujoISO">
+      <div class="nodo n-rec">Materia prima</div><div class="flecha">↓</div>
+      <div class="nodo n-rec" style="background:var(--azul)">Revisión</div><div class="flecha">↓</div>
+      <div class="loopWrap">
+        <div class="nodo n-rec">Producción</div><div class="flecha">↓</div>
+        <div class="nodo n-rom">Control de calidad<br>¿Reprocesar?</div>
+        <div class="railSI"><span class="railTag">SÍ · retorna ①→①</span></div>
+      </div>
+      <div class="flecha">↓ <span class="nota">NO</span></div>
+      <div class="nodo n-rec">Empaquetado</div><div class="flecha">↓</div>
+      <div class="nodo n-tri2">Almacén</div>
+    </div></div>
+  </div>
+  <div class="tarjeta" style="border-top-color:var(--naranja)">
+    <h3>🖥 Ejercicio 4: Simbología DO – “Desarrollar sistema”</h3>
+    <div class="scrollX"><div class="flujoV" style="min-width:420px">
+      <div class="nodo n-eli">INICIO</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Registrar productos y crear clave de artículos</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Proceso de alta en el sistema</div><div class="flecha">↓</div>
+      <div class="decRow">
+        <div class="nodo n-rec">Desarrollar el sistema</div>
+        <div class="sideBranch"><span class="flechaH">←</span><div class="nodo sideNode" style="background:var(--morado)">Asesoría: Consultor</div></div>
+      </div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Implementar codificación (código de barras) y definir secuencia</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Seleccionar recursos y procesar el lote</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Registrar el procedimiento</div><div class="flecha">↓</div>
+      <div class="nodo n-eli">FIN</div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 12 PROBLEMAS CON FLUJOGRAMA DE SOLUCIÓN -->
+<section class="slide">
+  <div class="tarjeta rosa">
+    <span class="etiqueta" style="background:var(--rosa)">Aplicación</span>
+    <h2>🏨 Problema 1: Hotel en Cusco</h2>
+    <p>El primer sábado del mes el hotel invita transeúntes; dos anfitrionas los acompañan y recogen sus datos. El lunes el Jefe de Admisión evalúa las hojas; solo las aceptadas se digitan en la base de datos. El martes el vendedor imprime la lista, llama y concreta citas con los interesados.</p>
+    <button class="btn ver" onclick="toggle('sol1')">👁 Ver flujograma de solución</button>
+    <div id="sol1" class="oculto"><div class="flujoSol"><div class="scrollX"><div class="flujoV" style="min-width:460px">
+      <div class="nodo n-eli">INICIO · Sábado</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">El hotel invita a transeúntes</div><div class="flecha">↓</div>
+      <div class="decRow"><div class="nodo n-rom romSm">¿Decide pasar?</div>
+        <div class="sideBranch"><span class="flechaH">→ NO</span><div class="nodo sideNode">Fin del contacto</div></div></div>
+      <div class="flecha">↓ <span class="nota">SÍ</span></div>
+      <div class="nodo n-rec">Visita guiada con 2 anfitrionas</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Interrogar datos y llenar hoja de cliente</div><div class="flecha">↓</div>
+      <div class="nodo n-rec" style="background:var(--azul)">(Lunes) Jefe de Admisión evalúa las hojas</div><div class="flecha">↓</div>
+      <div class="decRow"><div class="nodo n-rom romSm">¿Hoja aceptada?</div>
+        <div class="sideBranch"><span class="flechaH">→ NO</span><div class="nodo sideNode">Descartar / archivar</div></div></div>
+      <div class="flecha">↓ <span class="nota">SÍ</span></div>
+      <div class="nodo n-rec">Digitar y guardar en base de datos</div><div class="flecha">↓</div>
+      <div class="nodo n-rec" style="background:var(--azul)">(Martes) Imprimir lista y llamar</div><div class="flecha">↓</div>
+      <div class="decRow"><div class="nodo n-rom romSm">¿Interesado?</div>
+        <div class="sideBranch"><span class="flechaH">→ NO</span><div class="nodo sideNode">Fin del contacto</div></div></div>
+      <div class="flecha">↓ <span class="nota">SÍ</span></div>
+      <div class="nodo n-rec">Concretar cita y cerrar negocio</div><div class="flecha">↓</div>
+      <div class="nodo n-eli">FIN</div>
+    </div></div></div></div>
+  </div>
+
+  <div class="tarjeta azul">
+    <h2>💰 Problema 2: Pago a proveedores</h2>
+    <p>Los proveedores entregan facturas en Contabilidad; se digitan en el sistema y se envían al Gerente de Producción para su visto bueno. Si está conforme, pasa a Caja para el pago; si no, vuelve a Contabilidad para descargarla y devolverla al proveedor.</p>
+    <button class="btn ver" onclick="toggle('sol2')">👁 Ver flujograma de solución</button>
+    <div id="sol2" class="oculto"><div class="flujoSol"><div class="scrollX"><div class="flujoV" style="min-width:460px">
+      <div class="nodo n-eli">INICIO</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Proveedor emite la factura</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Entrega en Dpto. de Contabilidad</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Registrar / digitar en sistema contable</div><div class="flecha">↓</div>
+      <div class="nodo n-rec" style="background:var(--azul)">Enviar facturas del día al Gerente de Producción</div><div class="flecha">↓</div>
+      <div class="decRow"><div class="nodo n-rom romSm">¿Conforme?</div>
+        <div class="sideCol"><span class="flechaH">→ NO</span>
+          <div class="nodo sideNode">Devolver a Contabilidad</div><div class="flecha">↓</div>
+          <div class="nodo sideNode">Descargar del sistema</div><div class="flecha">↓</div>
+          <div class="nodo sideNode">Devolver al proveedor</div></div></div>
+      <div class="flecha">↓ <span class="nota">SÍ</span></div>
+      <div class="nodo n-rec">Enviar a Caja</div><div class="flecha">↓</div>
+      <div class="nodo n-rec">Pago al proveedor</div><div class="flecha">↓</div>
+      <div class="nodo n-eli">FIN</div>
+    </div></div></div></div>
+  </div>
+
+  <div class="tarjeta verde">
+    <h3>📱 Caso: cambio de carcasas de móvil</h3>
+    <p>El cliente tiene <b>una semana</b> para pedir el cambio. Puntos críticos: <b>no se validó el modelo en inventario</b> y el <b>color puede no estar disponible</b> → se agregan <b>rombos adicionales</b> con rutas de solución antes de presentar el diagrama final a socios, directivos y colaboradores.</p>
+  </div>
+</section>
+
+<!-- 13 EVALUACIÓN 2 -->
+<section class="slide">
+  <div class="tarjeta cyan">
+    <span class="etiqueta" style="background:var(--cyan)">Evaluación · Tema 2</span>
+    <h2>📝 Evaluación 2: Mapa Global y diseño</h2>
+    <div id="quiz2"></div>
+    <button class="btn" onclick="calificar('quiz2',q2,'res2')">✅ Calificar Evaluación 2</button>
+    <div class="puntaje" id="res2"></div>
+  </div>
+</section>
+
+<!-- 14 CIERRE -->
+<section class="slide">
+  <div class="tarjeta morado">
+    <span class="etiqueta" style="background:var(--morado)">Cierre</span>
+    <h2>🏁 Conclusiones</h2>
+    <div class="grid">
+      <div class="mini" style="background:var(--naranja)"><b>¿Qué es un flujograma?</b><span>Representación secuencial estandarizada de un proceso.</span></div>
+      <div class="mini" style="background:var(--cyan)"><b>¿Mapa Global?</b><span>Inputs/outputs e interrelación entre áreas.</span></div>
+      <div class="mini" style="background:var(--verde)"><b>¿Por qué es útil?</b><span>Visualiza, estandariza y mejora la productividad.</span></div>
+      <div class="mini" style="background:var(--rosa)"><b>Clave del diseño</b><span>Elipses, rectángulos, rombos y flechas bien conectados.</span></div>
+    </div>
+  </div>
+  <div class="tarjeta azul">
+    <h2>📚 Referencias</h2>
+    <ul>
+      <li>Meyers, F. (2001). <i>Estudios de tiempos y movimientos para la manufactura ágil</i> (3.ª ed.). Pearson Educación.</li>
+      <li>OIT (1998). <i>Introducción al estudio del trabajo</i> (4.ª ed.). Limusa.</li>
+      <li>Niebel, B. (2014). <i>Ingeniería industrial: métodos, estándares y diseño del trabajo</i> (13.ª ed.). McGraw-Hill.</li>
+    </ul>
+    <div class="destacado" style="text-align:center">🎓 <b>Ingeniería de Métodos I</b> · Docente: <b>Eduardo Olivos</b> · ¡Gracias!</div>
+  </div>
+</section>
+</main>
+
+<nav>
+  <button class="btn sec" id="btnPrev" onclick="mover(-1)">◀ Anterior</button>
+  <span id="contador">1 / 14</span>
+  <button class="btn" id="btnNext" onclick="mover(1)">Siguiente ▶</button>
+</nav>
+<footer>SEM 1 – Flujogramas o Diagramas de Procesos (2026-02) · Three.js + Chart.js + KaTeX.</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ===== NAVEGACIÓN ===== */
+var idx=0,slides=document.querySelectorAll('.slide');
+function render(){slides.forEach(function(s,i){s.classList.toggle('activa',i===idx);});
+ document.getElementById('contador').textContent=(idx+1)+' / '+slides.length;
+ document.getElementById('barraFill').style.width=((idx+1)/slides.length*100)+'%';
+ document.getElementById('btnPrev').disabled=(idx===0);
+ document.getElementById('btnNext').disabled=(idx===slides.length-1);
+ window.scrollTo({top:0,behavior:'smooth'});}
+function mover(d){idx=Math.min(Math.max(idx+d,0),slides.length-1);render();}
+function ir(n){idx=n-1;render();}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')mover(1);if(e.key==='ArrowLeft')mover(-1);});
+
+/* ===== TIMER ===== */
+var seg=3600,tInt=null;
+function relojTxt(){var m=String(Math.floor(seg/60)).padStart(2,'0'),s=String(seg%60).padStart(2,'0');document.getElementById('reloj').textContent=m+':'+s;}
+function iniciarTimer(){if(!tInt){tInt=setInterval(function(){if(seg>0){seg--;relojTxt();}},1000);}}
+function pausarTimer(){clearInterval(tInt);tInt=null;}
+function resetTimer(){pausarTimer();seg=3600;relojTxt();}
+relojTxt();
+
+/* ===== SLIDERS + DONA CHART.JS ===== */
+var chartTiempo=null;
+function calcTiempo(){
+ var t=+document.getElementById('sTeo').value,p=+document.getElementById('sPra').value,e=+document.getElementById('sEva').value;
+ document.getElementById('vTeo').textContent=t;document.getElementById('vPra').textContent=p;document.getElementById('vEva').textContent=e;
+ var tot=t+p+e,el=document.getElementById('total60');
+ el.textContent='Total: '+tot+' / 60 min '+(tot===60?'✅':'⚠️');
+ el.style.background=(tot===60)?'#D9FBE8':'#FFE3EC';el.style.color=(tot===60)?'#0a9e77':'#F72585';
+ if(chartTiempo){chartTiempo.data.datasets[0].data=[t,p,e];chartTiempo.update();}
+}
+if(window.Chart){
+ chartTiempo=new Chart(document.getElementById('chartTiempo'),{type:'doughnut',
+  data:{labels:['Teoría','Práctica','Evaluación'],datasets:[{data:[25,25,10],backgroundColor:['#00B4D8','#7B2FF7','#F72585'],borderWidth:3,borderColor:'#fff'}]},
+  options:{plugins:{legend:{position:'bottom'}},animation:{duration:400}}});
+ new Chart(document.getElementById('chartBarras'),{type:'bar',
+  data:{labels:['Rectángulos (actividades)','Rombos (decisiones)','Triángulos (almacén)','Elipses (inicio/fin)'],
+  datasets:[{label:'Reacción Química',data:[6,1,0,2],backgroundColor:'#00B4D8'},
+            {label:'Maquinaria de ropa ISO 9000',data:[4,1,1,0],backgroundColor:'#F72585'}]},
+  options:{scales:{y:{beginAtZero:true,ticks:{stepSize:1}}},plugins:{legend:{position:'bottom'}}}});
+}
+calcTiempo();
+
+/* ===== SÍMBOLOS 2D ===== */
+var simbolos=[
+ '<b>Óvalo / Elipse:</b> inicio y fin del proceso.',
+ '<b>Rectángulo:</b> actividad u operación (p. ej., "Pesar materia prima").',
+ '<b>Rombo:</b> decisión; ramifica trayectorias (Sí / No).',
+ '<b>Flecha:</b> sentido y secuencia del flujo.',
+ '<b>Triángulo invertido:</b> almacenamiento o inventario.',
+ '<b>Documento:</b> input/output de información escrita. Otros: ⏳ espera, ➡ desplazamiento, ⤵ salto del flujo.'];
+function verSimb(i,btn){document.querySelectorAll('.simbBtn').forEach(function(b){b.classList.remove('sel');});btn.classList.add('sel');document.getElementById('panelSimb').innerHTML=simbolos[i];}
+
+/* ===== THREE.JS 3D ===== */
+var meshes3D=[],txt3D=[
+ '<b>Esfera achatada (verde):</b> símbolo 3D de <b>Inicio/Fin</b> (elipse).',
+ '<b>Cubo (cian):</b> símbolo 3D de <b>actividad</b> (rectángulo).',
+ '<b>Octaedro (amarillo):</b> símbolo 3D de <b>decisión</b> (rombo).',
+ '<b>Cono invertido (rosado):</b> símbolo 3D de <b>almacenamiento</b> (triángulo invertido).'];
+function sel3D(i,btn){
+ document.querySelectorAll('.btn3d').forEach(function(b,j){b.classList.toggle('sel',j===i);});
+ var base=[[1,0.55,1],[1,1,1],[1,1,1],[1,1,1]];
+ meshes3D.forEach(function(m,j){var s=(i===j)?1.35:1;m.scale.set(base[j][0]*s,base[j][1]*s,base[j][2]*s);});
+ document.getElementById('panel3D').innerHTML=txt3D[i];
+}
+if(window.THREE){
+ var cv=document.getElementById('threeCanvas');
+ var ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+ var sce=new THREE.Scene();
+ var cam=new THREE.PerspectiveCamera(45,2,0.1,100);cam.position.set(0,1.5,8.5);cam.lookAt(0,0,0);
+ sce.add(new THREE.AmbientLight(0xffffff,0.75));
+ var dl=new THREE.DirectionalLight(0xffffff,0.8);dl.position.set(3,5,4);sce.add(dl);
+ var grp=new THREE.Group();sce.add(grp);
+ function mt(c){return new THREE.MeshPhongMaterial({color:c,shininess:90});}
+ var mE=new THREE.Mesh(new THREE.SphereGeometry(0.75,32,16),mt(0x06D6A0));mE.scale.set(1,0.55,1);mE.position.x=-3.3;
+ var mR=new THREE.Mesh(new THREE.BoxGeometry(1.35,0.85,0.85),mt(0x00B4D8));mR.position.x=-1.1;
+ var mO=new THREE.Mesh(new THREE.OctahedronGeometry(0.85),mt(0xFFD166));mO.position.x=1.1;
+ var mC=new THREE.Mesh(new THREE.ConeGeometry(0.75,1.15,4),mt(0xF72585));mC.rotation.z=Math.PI;mC.rotation.y=Math.PI/4;mC.position.x=3.3;
+ meshes3D=[mE,mR,mO,mC];meshes3D.forEach(function(m){grp.add(m);});
+ var drag=false,px=0;
+ cv.addEventListener('pointerdown',function(e){drag=true;px=e.clientX;});
+ window.addEventListener('pointerup',function(){drag=false;});
+ cv.addEventListener('pointermove',function(e){if(drag){grp.rotation.y+=(e.clientX-px)*0.01;px=e.clientX;}});
+ function sizeT(){var w=cv.parentElement.clientWidth;ren.setSize(w,260,false);cam.aspect=w/260;cam.updateProjectionMatrix();}
+ window.addEventListener('resize',sizeT);sizeT();
+ (function anim(){requestAnimationFrame(anim);if(!drag)grp.rotation.y+=0.006;ren.render(sce,cam);})();
+}else{
+ document.getElementById('threeWrap').innerHTML='<p style="padding:20px;background:#FFF3E0;border-radius:12px">⚠️ El visor 3D requiere conexión a internet para cargar Three.js.</p>';
+}
+
+/* ===== FLUJO PASO A PASO ===== */
+var paso=0,nodos=document.querySelectorAll('#flujoQ .nodo');
+function pasoFlujo(){if(paso<nodos.length){nodos[paso].classList.add('on');paso++;}if(paso===nodos.length){document.getElementById('btnPaso').disabled=true;}}
+function resetFlujo(){nodos.forEach(function(n){n.classList.remove('on');});paso=0;document.getElementById('btnPaso').disabled=false;}
+function toggle(id){document.getElementById(id).classList.toggle('oculto');}
+
+/* ===== EVALUACIONES ===== */
+var q1=[
+{q:'¿Cuál es la mejor definición de un flujograma?',o:['Un texto que describe el organigrama','La representación gráfica secuencial de un proceso con símbolos estandarizados','Una tabla de tiempos estándar','Un listado de insumos'],a:1,f:'Representa gráficamente la secuencia con inicio, fin y pasos intermedios.'},
+{q:'¿Qué figura representa una DECISIÓN?',o:['Rectángulo','Elipse','Rombo','Triángulo invertido'],a:2,f:'El rombo ramifica trayectorias (Sí/No).'},
+{q:'La elipse (óvalo) representa:',o:['Inspección','Inicio o fin del proceso','Almacenamiento','Espera'],a:1,f:'Se dibuja alrededor del primer y último paso.'},
+{q:'Organismo que proporciona símbolos para diagramas:',o:['ASME','OIT','OSHA','SUNAT'],a:0,f:'Junto con ANSI, ISO y DIN.'},
+{q:'El triángulo invertido representa:',o:['Operación','Transporte','Inspección','Almacenamiento o inventario'],a:3,f:'Como el almacén del ejemplo ISO 9000.'},
+{q:'Las flechas indican:',o:['Costo','Dirección y secuencia del flujo','N.º de operarios','Jerarquía'],a:1,f:'Señalan el sentido de inicio a fin.'},
+{q:'El símbolo de documento representa:',o:['Operación manual','Input/output de información escrita','Conector de página','Demora'],a:1,f:'Información transmitida por escrito.'},
+{q:'Los DIF corresponden a:',o:['Yourdon–De Marco y Gane & Sarson','Taylor y Gilbreth','Ford y Toyota','Deming y Juran'],a:0,f:'Diagramas Integrados de Flujo.'},
+{q:'El color AZUL de seguridad indica:',o:['Prohibición','Riesgo potencial','Obligación (EPP)','Evacuación'],a:2,f:'Ej.: uso obligatorio de casco.'},
+{q:'Beneficio directo de los flujogramas:',o:['Eliminar capacitación','Identificar cuellos de botella y estandarizar','Aumentar papeleo','Reemplazar manuales'],a:1,f:'Visualizan, estandarizan y mejoran procesos.'}];
+var q2=[
+{q:'El Mapa Global de Procesos sirve para:',o:['Detallar movimientos del operario','Ilustrar cómo funciona un proceso e identificar ineficiencias','Medir tiempos con cronómetro','Fijar salarios'],a:1,f:'Visualiza pasos e ineficiencias.'},
+{q:'¿Cuándo se diseña un proceso?',o:['Al cierre fiscal','Bien/servicio nuevo, modificación de producto o nueva tecnología','Por marketing','Solo en servicios'],a:1,f:'Los tres disparadores del material.'},
+{q:'¿Qué NO se identifica en un Mapa Global?',o:['Participantes','Inputs y outputs','Áreas intermedias','Estado de resultados'],a:3,f:'No incluye información financiera.'},
+{q:'Primer paso de un flujograma:',o:['Dibujar rombos','Determinar primer y último paso','Asignar responsables','Numerar hojas'],a:1,f:'Luego se dibuja la elipse de inicio.'},
+{q:'Diferencia correcta:',o:['El mapa usa símbolos estándar','El flujograma detalla el flujo secuencial con simbología estándar','Son lo mismo','El mapa solo es para manufactura'],a:1,f:'El mapa enfoca inputs/outputs entre organizaciones.'},
+{q:'En cada paso se precisan:',o:['Solo responsables','Inputs/proveedores y outputs/destinatarios','Costos unitarios','Horarios'],a:1,f:'Paso 5 de la metodología.'},
+{q:'Si la viscosidad NO es adecuada:',o:['Terminar','Ramificación (rombo) con retorno o ajuste','Omitir medición','Cambiar elipse por rectángulo'],a:1,f:'La rama NO retorna al reactor.'},
+{q:'Facturas NO conformes:',o:['Se pagan','Vuelven a Contabilidad para descargarlas y devolverlas al proveedor','Se archivan en Caja','Se destruyen'],a:1,f:'Ruta del rombo del Gerente de Producción.'},
+{q:'Corrección en el caso carcasas:',o:['Eliminar rombos','Agregar rombos para validar modelo en inventario y color','Solo rectángulos','Quitar inicio/fin'],a:1,f:'Validación de inventario y disponibilidad.'},
+{q:'El diagrama final se presenta a:',o:['La competencia','Socios, directivos y colaboradores, en especial al área del proceso','Solo al proveedor','Nadie'],a:1,f:'Para que sepan qué acciones tomar en cada etapa.'}];
+
+function pintar(id,arr){var c=document.getElementById(id),h='';
+ arr.forEach(function(it,i){h+='<div class="preg" id="'+id+'p'+i+'"><p class="enun">'+(i+1)+'. '+it.q+'</p>';
+  it.o.forEach(function(op,j){h+='<label><input type="radio" name="'+id+'_'+i+'" value="'+j+'"> '+String.fromCharCode(97+j)+') '+op+'</label>';});
+  h+='<div class="feedback" id="'+id+'f'+i+'"></div></div>';});
+ c.innerHTML=h;}
+function calificar(id,arr,resId){var nota=0;
+ arr.forEach(function(it,i){var sel=document.querySelector('input[name="'+id+'_'+i+'"]:checked');
+  var p=document.getElementById(id+'p'+i),fb=document.getElementById(id+'f'+i);
+  p.classList.remove('ok','mal');fb.style.display='block';
+  if(!sel){fb.innerHTML='⚠️ No respondida. '+it.f;fb.style.background='#FFF6D9';p.classList.add('mal');return;}
+  if(+sel.value===it.a){nota++;p.classList.add('ok');fb.innerHTML='✅ ¡Correcto! '+it.f;fb.style.background='#D9FBE8';}
+  else{p.classList.add('mal');fb.innerHTML='❌ Incorrecto. '+it.f;fb.style.background='#FFE3EC';}});
+ var r=document.getElementById(resId),pct=nota/arr.length*100;r.style.display='block';
+ r.innerHTML='Puntaje: <span style="font-size:2rem">'+nota+' / '+arr.length+'</span> ('+pct.toFixed(0)+'%)<br><span style="font-size:1rem">'+(pct>=70?'🏆 ¡Excelente dominio!':pct>=50?'📈 Buen avance, repasa lo marcado.':'📚 Revisa las diapositivas y reintenta.')+'</span>';
+ r.style.background=pct>=70?'#D9FBE8':pct>=50?'#FFF6D9':'#FFE3EC';
+ r.scrollIntoView({behavior:'smooth',block:'center'});}
+pintar('quiz1',q1);pintar('quiz2',q2);
+render();
+
+/* ===== KATEX ===== */
+window.addEventListener('load',function(){if(window.renderMathInElement){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});}});
+</script>
+</body>
+</html>
