@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación Sesión 1 — Ingeniería de Métodos I (Flujograma de Procesos)</title>
+<style>
+:root{--bg:#04040a;--cyan:#00f0ff;--magenta:#ff2ec4;--yellow:#ffe600;--green:#39ff14;--orange:#ff9500;--usil:#0b5cab;--card:rgba(255,255,255,.05);--border:rgba(0,240,255,.25)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:#eaf6ff;font-family:'Segoe UI',system-ui,Arial,sans-serif;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(1100px 600px at 82% -10%,rgba(0,240,255,.13),transparent 60%),radial-gradient(900px 520px at 8% 110%,rgba(255,46,196,.11),transparent 60%)}
+header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px 18px;background:rgba(5,6,16,.95);border-bottom:1px solid var(--border)}
+#logoWrap{background:#fff;border-radius:10px;padding:3px 10px}#logoWrap img{height:42px;display:block}
+.brand{font-weight:800;font-size:15px;background:linear-gradient(90deg,var(--cyan),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent}
+.chip{padding:4px 12px;border-radius:20px;border:1px solid var(--border);color:var(--cyan);font-size:12px;font-weight:600}
+.chip.doc{border-color:rgba(255,46,196,.45);color:var(--magenta)}
+main{position:relative;z-index:10;max-width:900px;margin:30px auto 60px;padding:0 20px}
+h2.sec{font-size:30px;font-weight:900;background:linear-gradient(90deg,var(--cyan),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.btn{cursor:pointer;border:1px solid var(--cyan);color:var(--cyan);background:rgba(0,240,255,.07);padding:10px 22px;border-radius:10px;font-size:15px;font-weight:700;text-transform:uppercase;transition:.25s}
+.btn:hover{background:rgba(0,240,255,.2);box-shadow:0 0 18px rgba(0,240,255,.5)}
+.btn.mg{border-color:var(--magenta);color:var(--magenta);background:rgba(255,46,196,.07)}.btn.gr{border-color:var(--green);color:var(--green);background:rgba(57,255,20,.07)}.btn.yl{border-color:var(--yellow);color:var(--yellow);background:rgba(255,230,0,.07)}
+.btn.sm{padding:6px 14px;font-size:12.5px}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+input.txt{padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:rgba(0,0,0,.5);color:#fff;font-size:15px;outline:none;width:100%}
+input.txt:focus{border-color:var(--cyan)}
+#timerDisplay{font-size:40px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums}
+#timerDisplay.warn{color:var(--orange)}#timerDisplay.danger{color:#ff3355;animation:pulse .7s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.qbox{border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:14px 16px;margin-bottom:12px;background:rgba(255,255,255,.03)}
+.qbox .qt{font-weight:700;margin-bottom:10px;font-size:14.5px}
+.qopt{display:block;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13.5px;color:#cfeef8;border:1px solid transparent;margin-bottom:4px}
+.qopt:hover{background:rgba(0,240,255,.08);border-color:rgba(0,240,255,.3)}
+.qopt input{margin-right:8px;accent-color:var(--cyan)}
+.neon-g{color:var(--green)}.neon-m{color:var(--magenta)}.neon-y{color:var(--yellow)}.neon-c{color:var(--cyan)}
+</style>
+</head>
+<body>
+<header>
+ <div id="logoWrap"><img src="USIL_logo.png" alt="USIL" onerror="this.onerror=null;this.style.display='none';document.getElementById('logoFallback').style.display='block';">
+  <svg id="logoFallback" viewBox="0 0 250 90" height="42" style="display:none"><text x="2" y="64" font-size="54" font-weight="700" fill="none" stroke="#c9a24b" stroke-width="2.5" font-family="Georgia,serif">30</text><circle cx="88" cy="36" r="24" fill="none" stroke="#c9a24b" stroke-width="3"/><text x="88" y="42" font-size="14" fill="#c9a24b" text-anchor="middle" font-family="Georgia,serif">años</text><text x="118" y="68" font-size="56" font-weight="800" fill="#0b5cab" font-family="Georgia,serif" font-style="italic">USIL</text></svg></div>
+ <div class="brand">⚙ EVALUACIÓN · MÉTODOS I · FLUJOGRAMAS</div>
+ <div style="margin-left:auto;display:flex;gap:8px"><span class="chip">Ingeniería de Métodos I</span><span class="chip">1 intento · 10 min</span><span class="chip doc">Eduardo Olivos</span></div>
+</header>
+<main>
+ <h2 class="sec">📝 Evaluación Sesión 1 (Flujograma de Procesos)</h2>
+ <div id="quizIntro" class="card">
+  <label style="font-size:13px;color:#8fb8c6;letter-spacing:1px;font-weight:700">APELLIDOS Y NOMBRES (en este orden)</label>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:8px 0 12px">
+   <input class="txt" id="apPaterno" placeholder="1er Apellido (paterno)" maxlength="40">
+   <input class="txt" id="apMaterno" placeholder="2do Apellido (materno)" maxlength="40">
+   <input class="txt" id="nombres" placeholder="Nombres" maxlength="60">
+  </div>
+  <p id="attemptInfo" style="font-size:13.5px;margin-bottom:10px"></p>
+  <ul style="font-size:13.5px;line-height:2;padding-left:18px;color:#cfeef8">
+   <li>📖 Las preguntas piden <b>interpretar</b>; repasa <b class="neon-c">IM1_S1_Teoria.html</b>.</li>
+   <li>🕑 Tiempo límite: <b class="neon-y">10 minutos (10:00)</b>.</li>
+   <li>🔒 Solo <b class="neon-c">1 intento</b>.</li>
+   <li>🚫 Si cambias de pantalla, minimizas o sales, se da por <b class="neon-m">concluida</b> y queda registrada.</li>
+   <li>📊 Tu resultado se registra automáticamente en la hoja del curso.</li>
+   <li>📩 Al final podrás recibir en tu correo personal el <b>Feedback</b> con tu calificación, cada pregunta, tu respuesta y la correcta.</li>
+  </ul>
+  <div class="btnrow"><button class="btn mg" id="btnStartQuiz" onclick="startQuiz()">🚀 Iniciar</button></div>
+  <div id="quizMsg" style="color:#ff8899;font-size:13.5px;font-weight:700"></div>
+ </div>
+ <div id="quizArea" style="display:none">
+  <div class="card" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap"><div id="timerDisplay">10:00</div><div><b class="neon-c" id="quizStudent"></b><br><span style="font-size:12px;color:#8fb8c6" id="quizAttemptLbl"></span></div></div>
+  <div id="questionsBox"></div>
+  <div class="btnrow"><button class="btn gr" onclick="submitQuiz(false)">✔ Entregar</button></div>
+ </div>
+ <div id="quizResult" style="display:none"></div>
+</main>
+<script>
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbw92gRxVDJ-gunQgDs-xre1RjUFhcyRP0Y2VR3qJEe05qjwb0jffwNWuUU4EKXk-wZo/exec';
+const MAX_ATTEMPTS=1, TIEMPO_LIMITE=600, CURSO_TAG='Ingeniería de Métodos I', SESION_TAG='S1 - Flujogramas o Diagramas de Procesos';
+/* Preguntas de INTERPRETACIÓN */
+const QUESTIONS=[
+ {q:'El flujograma se interpreta como:',o:['Un registro contable de costos del proceso','Un mapa visual que sustituye descripciones textuales largas y facilita comprender el proceso','Un organigrama que muestra jerarquías','Un cronograma de producción'],c:1},
+ {q:'Si un flujograma presenta muchos rombos, ¿qué se interpreta?',o:['El proceso carece de control','El proceso tiene pocas actividades','El proceso posee varios puntos de decisión con rutas alternativas','El proceso está totalmente automatizado'],c:2},
+ {q:'Si en un flujograma abundan símbolos de “espera” y “desplazamiento”, se concluye que:',o:['El flujo es óptimo','Existen desperdicios y oportunidades de mejora en el flujo','El proceso es seguro','El proceso requiere más almacenamiento'],c:1},
+ {q:'En el caso Compras, el Almacén realiza “Revisa Existencias” y “Surte Materiales”. Esto se interpreta como que el Almacén:',o:['Solo almacena producto terminado','Aprueba las órdenes de compra','Selecciona al proveedor','Abastece inputs intermedios y recibe/inspecciona outputs del proceso'],c:3},
+ {q:'En el caso de las carcasas de móvil, el flujograma inicial omitía los rombos “¿modelo en inventario?” y “¿color disponible?”. Esa omisión significa que:',o:['No se contemplaban rutas alternativas y el flujo podía fallar antes de concluir','El proceso ya era óptimo','El cliente no requiere decisiones','El flujograma estaba correctamente estandarizado'],c:0},
+ {q:'En la Reacción Química, el rombo “¿Viscosidad OK?” devuelve por NO al reactor. Esto se interpreta como:',o:['Un error de diagramación','Un almacenamiento de la muestra','Un ciclo de control que genera retrabajo cuando no se cumple la condición','Un salto de flujo a otra página'],c:2},
+ {q:'Si una empresa busca que todos ejecuten un procedimiento de la misma manera, el beneficio del flujograma que se aplica es:',o:['Toma de decisiones','Estandarización','Capacitación','Mejora de procesos'],c:1},
+ {q:'El Mapa Global no usa símbolos estándar ni detalla el flujo. Su
